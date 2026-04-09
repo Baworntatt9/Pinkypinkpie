@@ -20,6 +20,7 @@ export default function TimerTab({ onSessionComplete }: TimerProps) {
   const [sessionsToday, setSessionsToday] = useState(3)
   const [focusMins, setFocusMins] = useState(80)
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
+  const sessionEarnedRef = useRef<number | null>(null)
 
   const isStopwatch = modeIndex === 1
 
@@ -40,7 +41,7 @@ export default function TimerTab({ onSessionComplete }: TimerProps) {
               const earned = Math.round(totalSec / 60)
               setSessionsToday(s => s + 1)
               setFocusMins(m => m + earned)
-              onSessionComplete(earned)
+              sessionEarnedRef.current = earned
               return 0
             }
             return r - 1
@@ -51,6 +52,13 @@ export default function TimerTab({ onSessionComplete }: TimerProps) {
     return clearTimer
   }, [running, clearTimer, isStopwatch, totalSec, onSessionComplete])
 
+  useEffect(() => {
+    if (sessionEarnedRef.current !== null) {
+      onSessionComplete(sessionEarnedRef.current)
+      sessionEarnedRef.current = null
+    }
+  })
+    
   const setMode = (i: number) => {
     clearTimer()
     setRunning(false)

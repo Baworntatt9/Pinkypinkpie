@@ -26,10 +26,7 @@ export default function HomeTab({ sessionsToday, focusMinutes }: HomeProps) {
       {/* Greeting Card */}
       <div style={{ margin: '0 20px 20px', background: 'var(--accent)', borderRadius: 'var(--radius)', padding: '20px', display: 'flex', alignItems: 'center', gap: 16 }}>
         <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'var(--accent-light)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-          <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-dark)" strokeWidth="1.5" style={{ width: 28, height: 28 }}>
-            <circle cx="12" cy="8" r="4" />
-            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
-          </svg>
+          <span style={{ fontSize: 28, lineHeight: 1 }}>🐷</span>
         </div>
         <div>
           <h3 style={{ fontSize: 16, fontWeight: 600, color: '#fff' }}>Good morning, Pinky!</h3>

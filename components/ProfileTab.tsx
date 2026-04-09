@@ -12,10 +12,7 @@ export default function ProfileTab() {
       {/* Hero */}
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px 0 24px' }}>
         <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'var(--accent-light)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 12 }}>
-          <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-dark)" strokeWidth="1.5" style={{ width: 40, height: 40 }}>
-            <circle cx="12" cy="8" r="4" />
-            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
-          </svg>
+          <span style={{ fontSize: 40, lineHeight: 1 }}>🐷</span>
         </div>
         <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--text)' }}>Pinky User</div>
         <div style={{ fontSize: 13, color: 'var(--subtext)', marginTop: 2 }}>Focus enthusiast · Joined Jan 2025</div>
