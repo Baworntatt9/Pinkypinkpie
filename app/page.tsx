@@ -66,18 +66,26 @@ export default function Page() {
 
   return (
     <div className="app-shell">
-      {tab === 'home'    && <HomeTab sessionsToday={sessionsToday} focusMinutes={focusMinutes} />}
-      {tab === 'timer'   && <TimerTab onSessionComplete={handleSessionComplete} />}
-      {tab === 'stat'    && <StatTab />}
-      {tab === 'friends' && <FriendsTab myFocusMinutes={focusMinutes} mySessionsToday={sessionsToday} />}
-      {tab === 'profile' && <ProfileTab />}
+      {/* Content area */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        bottom: 64,
+        overflowY: 'auto',
+        WebkitOverflowScrolling: 'touch',
+      }}>
+        {tab === 'home'    && <HomeTab sessionsToday={sessionsToday} focusMinutes={focusMinutes} />}
+        {tab === 'timer'   && <TimerTab onSessionComplete={handleSessionComplete} />}
+        {tab === 'stat'    && <StatTab />}
+        {tab === 'friends' && <FriendsTab myFocusMinutes={focusMinutes} mySessionsToday={sessionsToday} />}
+        {tab === 'profile' && <ProfileTab />}
+      </div>
 
       {/* Bottom Nav */}
       <nav style={{
         position: 'absolute', bottom: 0, left: 0, right: 0,
         background: '#fff', borderTop: '1px solid var(--secondary)',
         display: 'flex', height: 64, zIndex: 10,
-        borderRadius: '0 0 24px 24px',
       }}>
         {tabs.map(t => (
           <button

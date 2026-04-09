@@ -54,10 +54,7 @@ export default function FriendsTab({
   const myFocus = focusKey === 'focusToday' ? myFocusMinutes : me[focusKey]
 
   return (
-    <div
-      className="screen-scroll"
-      style={{ flex: 1, overflowY: 'auto', paddingBottom: 80 }}
-    >
+    <div style={{ paddingBottom: 0}}>
       {/* Header */}
       <div style={{
         padding: '28px 24px 16px',
