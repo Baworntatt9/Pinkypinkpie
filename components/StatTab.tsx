@@ -23,7 +23,7 @@ const achievements = [
 
 export default function StatTab() {
   return (
-    <div className="screen-content" style={{ padding: '24px 20px 8px' }}>
+    <div className="screen-content" style={{ padding: '24px 20px 20px' }}>
       <div style={{ fontSize: 22, fontWeight: 700, color: 'var(--text)', marginBottom: 4 }}>Your Stats</div>
       <div style={{ fontSize: 13, color: 'var(--subtext)', marginBottom: 20 }}>Weekly overview · Mock data</div>
 
