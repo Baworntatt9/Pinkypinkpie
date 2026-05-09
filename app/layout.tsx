@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'PinkyPie Focus',
+  title: 'Rainbowdeep Focus',
   description: 'Your personal focus timer and productivity tracker',
 }
 

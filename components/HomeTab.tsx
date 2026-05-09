@@ -91,7 +91,7 @@ export default function HomeTab({
     <div style={{ padding: '0 0 8px' }}>
       {/* Header */}
       <div style={{ padding: '28px 24px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span style={{ fontSize: 26, fontWeight: 700, color: 'var(--text)', fontStyle: 'italic' }}>PinkyPie</span>
+        <span style={{ fontSize: 26, fontWeight: 700, color: 'var(--text)', fontStyle: 'italic' }}>RainbowDeep</span>
         <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <svg viewBox="0 0 24 24" fill="none" stroke="var(--subtext)" strokeWidth="2" style={{ width: 18, height: 18 }}>
             <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
