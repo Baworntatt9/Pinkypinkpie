@@ -64,7 +64,10 @@ export default function ProfileTab({ profile, history, sessionsToday, focusMinut
       {/* Hero */}
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px 0 24px' }}>
         <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'var(--accent-light)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 12 }}>
-          <span style={{ fontSize: 40, lineHeight: 1 }}>🐷</span>
+          <svg viewBox="0 0 24 24" fill="var(--accent)" style={{ width: 44, height: 44 }}>
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" />
+          </svg>
         </div>
 
         {editingName ? (

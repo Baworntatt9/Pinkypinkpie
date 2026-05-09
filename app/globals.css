@@ -3,13 +3,13 @@
 @tailwind utilities;
 
 :root {
-  --primary: #FFF2F2;
-  --secondary: #FFE4E4;
-  --accent: #FF9EAA;
-  --accent-light: #FFCCD5;
-  --accent-dark: #E87A8A;
-  --text: #5A3E3E;
-  --subtext: #A67C7C;
+  --primary: #F0F7FF;
+  --secondary: #DBEAFE;
+  --accent: #3B82F6;
+  --accent-light: #BFDBFE;
+  --accent-dark: #2563EB;
+  --text: #1E3A5F;
+  --subtext: #6B83A6;
   --white: #ffffff;
   --nav-height: 64px;
   --radius: 20px;
@@ -61,7 +61,7 @@ body {
     max-width: 420px;
     height: min(780px, calc(100vh - 48px));
     border-radius: 28px;
-    box-shadow: 0 8px 48px rgba(90, 62, 62, 0.12);
+    box-shadow: 0 8px 48px rgba(30, 58, 95, 0.12);
     overflow: hidden;
   }
 }

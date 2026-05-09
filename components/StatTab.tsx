@@ -108,9 +108,9 @@ export default function StatTab({ history, sessionsToday, focusMinutes }: StatPr
         <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--text)', marginBottom: 16 }}>Daily focus time (minutes)</div>
         <ResponsiveContainer width="100%" height={160}>
           <LineChart data={weekData} margin={{ top: 4, right: 4, left: -24, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#FFE4E4" />
-            <XAxis dataKey="day" tick={{ fontSize: 11, fill: '#A67C7C' }} axisLine={false} tickLine={false} />
-            <YAxis tick={{ fontSize: 10, fill: '#A67C7C' }} axisLine={false} tickLine={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="#DBEAFE" />
+            <XAxis dataKey="day" tick={{ fontSize: 11, fill: '#6B83A6' }} axisLine={false} tickLine={false} />
+            <YAxis tick={{ fontSize: 10, fill: '#6B83A6' }} axisLine={false} tickLine={false} />
             <Tooltip
               contentStyle={{ background: '#fff', border: '1px solid var(--secondary)', borderRadius: 8, fontSize: 12 }}
               labelStyle={{ color: 'var(--text)', fontWeight: 600 }}
@@ -118,10 +118,10 @@ export default function StatTab({ history, sessionsToday, focusMinutes }: StatPr
             <Line
               type="monotone"
               dataKey="minutes"
-              stroke="#FF9EAA"
+              stroke="#3B82F6"
               strokeWidth={2.5}
-              dot={{ fill: '#FF9EAA', r: 4, strokeWidth: 0 }}
-              activeDot={{ r: 6, fill: '#E87A8A', stroke: 'white', strokeWidth: 2 }}
+              dot={{ fill: '#3B82F6', r: 4, strokeWidth: 0 }}
+              activeDot={{ r: 6, fill: '#2563EB', stroke: 'white', strokeWidth: 2 }}
             />
           </LineChart>
         </ResponsiveContainer>

@@ -49,7 +49,7 @@ export default function HomeTab({
     const diff = focusMinutes - yesterdayMinutes
     vsYesterday = {
       text: diff === 0 ? 'Same as yesterday' : diff > 0 ? `+${fmt(diff)} vs yesterday` : `-${fmt(Math.abs(diff))} vs yesterday`,
-      color: diff >= 0 ? '#6dbb7a' : '#E87A8A',
+      color: diff >= 0 ? '#6dbb7a' : '#EF5350',
     }
   }
 
@@ -103,10 +103,13 @@ export default function HomeTab({
       {/* Greeting Card */}
       <div style={{ margin: '0 20px 20px', background: 'var(--accent)', borderRadius: 'var(--radius)', padding: '20px', display: 'flex', alignItems: 'center', gap: 16 }}>
         <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'var(--accent-light)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-          <span style={{ fontSize: 28, lineHeight: 1 }}>🐷</span>
+          <svg viewBox="0 0 24 24" fill="white" style={{ width: 30, height: 30 }}>
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" />
+          </svg>
         </div>
         <div>
-          <h3 style={{ fontSize: 16, fontWeight: 600, color: '#fff' }}>{greet()}, Pinky!</h3>
+          <h3 style={{ fontSize: 16, fontWeight: 600, color: '#fff' }}>{greet()}, Focuser!</h3>
           <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', marginTop: 2 }}>
             {focusMinutes > 0 ? `You've focused ${focusStr} today` : 'Ready to start focusing?'}
           </p>
