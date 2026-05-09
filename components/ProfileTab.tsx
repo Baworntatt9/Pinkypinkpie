@@ -2,10 +2,62 @@
 
 import { useState } from 'react'
 
-export default function ProfileTab() {
+interface DayRecord {
+  date: string
+  focusMinutes: number
+  sessions: number
+}
+
+interface Profile {
+  name: string
+  dailyGoal: number
+}
+
+interface ProfileProps {
+  profile: Profile
+  history: DayRecord[]
+  sessionsToday: number
+  focusMinutes: number
+  onProfileChange: (p: Profile) => void
+}
+
+function fmt(min: number) {
+  if (min === 0) return '0m'
+  const h = Math.floor(min / 60)
+  const m = min % 60
+  return h > 0 ? `${h}h ${m}m` : `${m}m`
+}
+
+export default function ProfileTab({ profile, history, sessionsToday, focusMinutes, onProfileChange }: ProfileProps) {
   const [autoBreak, setAutoBreak] = useState(true)
   const [sound, setSound] = useState(true)
-  const [blockApps, setBlockApps] = useState(false)
+  const [editingName, setEditingName] = useState(false)
+  const [editingGoal, setEditingGoal] = useState(false)
+  const [draftName, setDraftName] = useState(profile.name)
+  const [draftGoal, setDraftGoal] = useState(profile.dailyGoal)
+
+  const totalSessions = history.reduce((s, d) => s + d.sessions, 0) + sessionsToday
+  const totalMinutes = history.reduce((s, d) => s + d.focusMinutes, 0) + focusMinutes
+
+  const map = new Map(history.map(r => [r.date, r.focusMinutes]))
+  if (focusMinutes > 0) map.set(new Date().toDateString(), focusMinutes)
+  let streak = 0
+  for (let i = 0; i <= 365; i++) {
+    const d = new Date()
+    d.setDate(d.getDate() - i)
+    if ((map.get(d.toDateString()) ?? 0) > 0) streak++
+    else break
+  }
+
+  const saveName = () => {
+    if (draftName.trim()) onProfileChange({ ...profile, name: draftName.trim() })
+    setEditingName(false)
+  }
+
+  const saveGoal = () => {
+    onProfileChange({ ...profile, dailyGoal: draftGoal })
+    setEditingGoal(false)
+  }
 
   return (
     <div style={{ padding: '24px 20px 8px' }}>
@@ -14,15 +66,39 @@ export default function ProfileTab() {
         <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'var(--accent-light)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 12 }}>
           <span style={{ fontSize: 40, lineHeight: 1 }}>🐷</span>
         </div>
-        <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--text)' }}>Pinky User</div>
-        <div style={{ fontSize: 13, color: 'var(--subtext)', marginTop: 2 }}>Focus enthusiast · Joined Jan 2025</div>
+
+        {editingName ? (
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            <input
+              value={draftName}
+              onChange={e => setDraftName(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && saveName()}
+              autoFocus
+              style={{ fontSize: 18, fontWeight: 700, border: '1px solid var(--accent-light)', borderRadius: 8, padding: '4px 10px', color: 'var(--text)', outline: 'none' }}
+            />
+            <button onClick={saveName} style={{ fontSize: 13, background: 'var(--accent)', color: '#fff', border: 'none', borderRadius: 8, padding: '5px 12px', cursor: 'pointer' }}>Save</button>
+          </div>
+        ) : (
+          <div
+            style={{ fontSize: 20, fontWeight: 700, color: 'var(--text)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}
+            onClick={() => { setDraftName(profile.name); setEditingName(true) }}
+          >
+            {profile.name}
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--subtext)" strokeWidth="2" style={{ width: 14, height: 14 }}>
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+            </svg>
+          </div>
+        )}
+        <div style={{ fontSize: 13, color: 'var(--subtext)', marginTop: 2 }}>Focus enthusiast</div>
+
         <div style={{ display: 'flex', gap: 16, marginTop: 16, alignItems: 'center' }}>
           {[
-            { val: '127', lbl: 'Sessions' },
+            { val: totalSessions.toString(), lbl: 'Sessions' },
             { val: null, lbl: '' },
-            { val: '52h', lbl: 'Total' },
+            { val: fmt(totalMinutes), lbl: 'Total' },
             { val: null, lbl: '' },
-            { val: '7🔥', lbl: 'Streak' },
+            { val: streak > 0 ? `${streak}🔥` : '0', lbl: 'Streak' },
           ].map((p, i) =>
             p.val === null
               ? <div key={i} style={{ width: 1, background: 'var(--secondary)', alignSelf: 'stretch' }} />
@@ -43,8 +119,36 @@ export default function ProfileTab() {
 
       {/* Preferences */}
       <SettingsSection label="Preferences">
-        <SettingRow icon={<TargetIcon />} text="Daily focus goal" right={<span style={{ fontSize: 13, color: 'var(--subtext)' }}>4 sessions</span>} />
-        <SettingRow icon={<LockIcon />} text="Block distracting apps" right={<Toggle on={blockApps} onClick={() => setBlockApps(v => !v)} />} />
+        <SettingRow
+          icon={<TargetIcon />}
+          text="Daily focus goal"
+          right={
+            editingGoal ? (
+              <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+                <button
+                  onClick={() => setDraftGoal(g => Math.max(1, g - 1))}
+                  style={{ width: 26, height: 26, borderRadius: '50%', border: '1px solid var(--accent-light)', background: 'transparent', color: 'var(--accent-dark)', cursor: 'pointer', fontSize: 16 }}
+                >−</button>
+                <span style={{ fontSize: 14, fontWeight: 600, minWidth: 22, textAlign: 'center' }}>{draftGoal}</span>
+                <button
+                  onClick={() => setDraftGoal(g => Math.min(20, g + 1))}
+                  style={{ width: 26, height: 26, borderRadius: '50%', border: '1px solid var(--accent-light)', background: 'transparent', color: 'var(--accent-dark)', cursor: 'pointer', fontSize: 16 }}
+                >+</button>
+                <button
+                  onClick={saveGoal}
+                  style={{ fontSize: 11, background: 'var(--accent)', color: '#fff', border: 'none', borderRadius: 6, padding: '4px 8px', cursor: 'pointer' }}
+                >✓</button>
+              </div>
+            ) : (
+              <span
+                style={{ fontSize: 13, color: 'var(--subtext)', cursor: 'pointer' }}
+                onClick={() => { setDraftGoal(profile.dailyGoal); setEditingGoal(true) }}
+              >
+                {profile.dailyGoal} sessions ✎
+              </span>
+            )
+          }
+        />
       </SettingsSection>
     </div>
   )
@@ -61,7 +165,7 @@ function SettingsSection({ label, children }: { label: string; children: React.R
 
 function SettingRow({ icon, text, right }: { icon: React.ReactNode; text: string; right: React.ReactNode }) {
   return (
-    <div style={{ background: '#fff', borderRadius: 'var(--radius-sm)', padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer' }}>
+    <div style={{ background: '#fff', borderRadius: 'var(--radius-sm)', padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12 }}>
       <div style={{ width: 32, height: 32, borderRadius: 8, background: 'var(--secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{icon}</div>
       <div style={{ flex: 1, fontSize: 14, color: 'var(--text)', fontWeight: 500 }}>{text}</div>
       {right}
@@ -84,7 +188,4 @@ function BellIcon() {
 }
 function TargetIcon() {
   return <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-dark)" strokeWidth="2" style={{ width: 16, height: 16 }}><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" /></svg>
-}
-function LockIcon() {
-  return <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-dark)" strokeWidth="2" style={{ width: 16, height: 16 }}><rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
 }

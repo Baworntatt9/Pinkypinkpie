@@ -4,6 +4,9 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 
 interface TimerProps {
   onSessionComplete: (minutes: number) => void
+  sessionsToday: number
+  focusMinutes: number
+  dailyGoal: number
 }
 
 const MODES = [
@@ -11,14 +14,12 @@ const MODES = [
   { label: 'Stopwatch', type: 'stopwatch', minutes: 0 },
 ]
 
-export default function TimerTab({ onSessionComplete }: TimerProps) {
+export default function TimerTab({ onSessionComplete, sessionsToday, focusMinutes, dailyGoal }: TimerProps) {
   const [modeIndex, setModeIndex] = useState(0)
   const [totalSec, setTotalSec] = useState(25 * 60)
   const [remaining, setRemaining] = useState(25 * 60)
   const [elapsed, setElapsed] = useState(0)
   const [running, setRunning] = useState(false)
-  const [sessionsToday, setSessionsToday] = useState(3)
-  const [focusMins, setFocusMins] = useState(80)
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
   const sessionEarnedRef = useRef<number | null>(null)
 
@@ -39,8 +40,6 @@ export default function TimerTab({ onSessionComplete }: TimerProps) {
               clearTimer()
               setRunning(false)
               const earned = Math.round(totalSec / 60)
-              setSessionsToday(s => s + 1)
-              setFocusMins(m => m + earned)
               sessionEarnedRef.current = earned
               return 0
             }
@@ -88,8 +87,6 @@ export default function TimerTab({ onSessionComplete }: TimerProps) {
       // Lap: บันทึกเวลาแล้วเริ่มนับใหม่
       if (elapsed > 0) {
         const lapMins = Math.round(elapsed / 60)
-        setSessionsToday(s => s + 1)
-        setFocusMins(m => m + lapMins)
         onSessionComplete(lapMins)
         setElapsed(0)
       }
@@ -108,8 +105,8 @@ export default function TimerTab({ onSessionComplete }: TimerProps) {
   const circumference = 628
   const offset = circumference * (1 - pct)
 
-  const hours = Math.floor(focusMins / 60)
-  const mins = focusMins % 60
+  const hours = Math.floor(focusMinutes / 60)
+  const mins = focusMinutes % 60
   const focusStr = hours > 0 ? `${hours}h ${mins}m` : `${mins}m`
 
   return (
@@ -188,7 +185,7 @@ export default function TimerTab({ onSessionComplete }: TimerProps) {
         {[
           { val: sessionsToday, lbl: 'Sessions today' },
           { val: focusStr, lbl: 'Total focus' },
-          { val: 4, lbl: 'Daily goal' },
+          { val: dailyGoal, lbl: 'Daily goal' },
         ].map((c, i) => (
           <div key={i} style={{ flex: 1, background: '#fff', borderRadius: 'var(--radius-sm)', padding: 12, textAlign: 'center' }}>
             <div style={{ fontSize: 18, fontWeight: 700, color: 'var(--text)' }}>{c.val}</div>
