@@ -76,8 +76,8 @@ function saveTasks(tasks: Task[]) {
 function loadProfile(): Profile {
   try {
     const raw = localStorage.getItem(PROFILE_KEY)
-    return raw ? { name: 'Pinky', dailyGoal: 4, ...JSON.parse(raw) } : { name: 'Pinky', dailyGoal: 4 }
-  } catch { return { name: 'Pinky', dailyGoal: 4 } }
+    return raw ? { name: 'Focuser', dailyGoal: 4, ...JSON.parse(raw) } : { name: 'Focuser', dailyGoal: 4 }
+  } catch { return { name: 'Focuser', dailyGoal: 4 } }
 }
 
 function saveProfile(p: Profile) {
@@ -149,7 +149,7 @@ export default function Page() {
   const [focusMinutes, setFocusMinutes] = useState(0)
   const [history, setHistory] = useState<DayRecord[]>([])
   const [tasks, setTasks] = useState<Task[]>([])
-  const [profile, setProfile] = useState<Profile>({ name: 'Pinky', dailyGoal: 4 })
+  const [profile, setProfile] = useState<Profile>({ name: 'Focuser', dailyGoal: 4 })
   const loaded = useRef(false)
 
   useEffect(() => {
